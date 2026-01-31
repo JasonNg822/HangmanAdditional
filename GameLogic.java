@@ -140,6 +140,24 @@ public class GameLogic {
         return hide_letter;
     }
 
+    // for HangmanBasic project only
+    public static char letter() {
+        char letter;
+        while (true) { 
+            try {
+                GameUI.print("Guess a letter: ");
+                // to change the letter player input to uppercase and only get the first letter if player input more than one letter.
+                letter = GameUI.input.nextLine().toUpperCase().charAt(0);       
+                if (String.valueOf(letter).matches("[A-Za-z]+")) { // .matches only can use on String
+                    break;
+                }
+            } catch (Exception e) {
+                GameUI.println("Invalid input.");
+            }
+        }
+        return letter;
+    }
+
     // to get what letter player guess
     public static char letter(int hints) {
         char letter;
