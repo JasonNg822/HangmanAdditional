@@ -14,7 +14,7 @@ If number of correct is same then will follow by number of guess wrong (from sma
 import java.util.ArrayList;
 import java.util.List;
 
-public class Multiplayer1 extends HangmanBasic {
+public class Multiplayer1 extends HangmanBasic{
 
     protected static int player_index;
 
@@ -23,15 +23,15 @@ public class Multiplayer1 extends HangmanBasic {
         continues = true;
 
         // to store players detail like name and "life"
-        List<Player> players = new ArrayList<>();
-        // to store those players details who lose before game end
-        List<Player> loser = new ArrayList<>();
-
+        List <Player> players = new ArrayList<>();
+        // to store those players details who lose before game end 
+        List <Player> loser = new ArrayList<>();
+        
         // to get every player name
         GameLogic.get_player_name(n_player, players);
-
+        
         while ((continues == true)) {
-
+            
             GameUI.println("\n===== Welcome to Hangman game! =====");
             GameLogic.initialize(players, loser);
             used_letter = new ArrayList<>();
@@ -47,7 +47,7 @@ public class Multiplayer1 extends HangmanBasic {
             boolean game_end = false;
 
             // game/round start
-            while (game_end == false) {
+            while (game_end == false) { 
                 GameUI.footer();
                 GameUI.display_hangman(players.get(player_index).wrong);
                 GameUI.println(players.get(player_index).name + " round");
@@ -60,55 +60,41 @@ public class Multiplayer1 extends HangmanBasic {
                 GameUI.footer();
                 // the letter player guess
                 letter = GameLogic.letter(hint);
-                if (letter == '?') { // check if player use hint
+                if (letter == '?'){ // check if player use hint
                     letter = GameLogic.hint(word, used_letter);
                     used_letter.add(letter);
                     hint--;
-                    game_end = GameLogic.multiplayer_win_logic(players, loser, player_index, used_letter, word); // check
-                                                                                                                 // if
-                                                                                                                 // win
-                                                                                                                 // because
-                                                                                                                 // maybe
-                                                                                                                 // player
-                                                                                                                 // use
-                                                                                                                 // hint
-                                                                                                                 // on
-                                                                                                                 // the
-                                                                                                                 // last
-                                                                                                                 // alphabet
+                    game_end = GameLogic.multiplayer_win_logic(players, loser, player_index, used_letter, word); // check if win because maybe player use hint on the last alphabet
                 }
                 // to calculate number of player guess wrong and correct
-                players.get(player_index).wrong = GameLogic.number_of_guess_wrong(players.get(player_index).wrong, word,
-                        letter, used_letter);
-                players.get(player_index).correct = GameLogic.number_of_guess_correct(players.get(player_index).correct,
-                        word, letter, used_letter);
-                if (used_letter.contains(letter)) {
+                players.get(player_index).wrong = GameLogic.number_of_guess_wrong(players.get(player_index).wrong, word, letter, used_letter);
+                players.get(player_index).correct = GameLogic.number_of_guess_correct(players.get(player_index).correct, word, letter, used_letter);
+                if (used_letter.contains(letter)){
                     continue;
-                } else {
+                }
+                else{
                     used_letter.add(letter);
                 }
 
-                // get the number of player before check the player lose or not (if lose will
-                // remove from players)
+                // get the number of player before check the player lose or not (if lose will remove from players)
                 int before_remove = players.size();
 
                 // check if win or not
-                if (GameLogic.multiplayer_win_logic(players, loser, player_index, used_letter, word)) {
+                if (GameLogic.multiplayer_win_logic(players, loser, player_index, used_letter, word)){
                     game_end = true;
                 }
                 // check if lose or not
-                else if (GameLogic.multiplayer_lose_logic(players, loser, player_index, used_letter, word)) {
+                else if (GameLogic.multiplayer_lose_logic(players, loser, player_index, used_letter, word)){
                     game_end = true;
                 }
 
-                // get the number of player before check the player lose or not (if lose will
-                // remove from players)
+                // get the number of player before check the player lose or not (if lose will remove from players)
                 int after_remove = players.size();
 
-                if (after_remove < before_remove) { // check got player have been remove or not
-                    if (player_index >= players.size()) {
+                if (after_remove < before_remove){ // check got player have been remove or not
+                    if (player_index >= players.size()){
                         player_index = 0;
-                    }
+                    }    
                     continue;
                 }
 
@@ -116,10 +102,10 @@ public class Multiplayer1 extends HangmanBasic {
                 player_index = (player_index + 1) % players.size();
             }
             do {
-                GameUI.print("\nYou want to continue for next game? (y/n): ");
+                GameUI.print("\nYou want to continue for next game? (y/n): "); 
                 ans = input.nextLine();
             } while (!ans.equalsIgnoreCase("y") && !ans.equalsIgnoreCase("n"));
-            if (ans.equalsIgnoreCase("n")) {
+            if (ans.equalsIgnoreCase("n")){
                 GameUI.println("");
                 continues = false;
             }
