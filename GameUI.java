@@ -28,6 +28,7 @@ public class GameUI {
             println("2. Animal");
             println("3. Country");
             println("4. Sport");
+            println("5. Phrase");
         }
     }
 
@@ -38,9 +39,9 @@ public class GameUI {
         println("3. Hard");
     }
 
-    public static void hide_sentence (List <Character> used_letter, String word){
+    public static void hide_sentence (String mask){
         print("Word:");
-        println(GameLogic.hide_sentences(used_letter, word));
+        println(mask);
     }
 
     public static void incorrect (int number_of_guess_wrong){

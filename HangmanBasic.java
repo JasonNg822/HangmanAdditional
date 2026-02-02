@@ -24,7 +24,7 @@ public class HangmanBasic {
 
     protected static int number_of_guess_wrong;
     protected static int hint;
-    protected static List<Character> used_letter;
+    protected static List<Character> use_letter = new ArrayList<>();
 
     protected static boolean continues;
     protected static char letter;
@@ -38,12 +38,13 @@ public class HangmanBasic {
         int wrong = 0;
         int correct = 0;
         String name = "";
-        Player player = new Player(name, wrong, correct);
+        String mask = "";
+        Player player = new Player(name, wrong, correct, hint, use_letter, mask);
         while (true) {
             GameUI.print("\nPlease enter player name: ");
             name = HangmanBasic.input.nextLine();
             if (!name.trim().isEmpty()) {
-                player = new Player(name, wrong, correct);
+                player = new Player(name, wrong, correct, hint, use_letter, mask);
                 break;
             }
         }
@@ -51,8 +52,9 @@ public class HangmanBasic {
         while (continues == true) {
             player.wrong = 0;
             player.correct = 0;
-            hint = 1;
-            used_letter = new ArrayList<>();
+            player.hint = 1;
+            use_letter = new ArrayList<>();
+            player.use_letter = use_letter;
 
             GameUI.println("\n===== Welcome to Hangman game! =====");
             // let computer get the word from WordLoader
@@ -61,6 +63,7 @@ public class HangmanBasic {
             GameUI.level();
             int level = GameLogic.choice(min_level, max_level);
             word = WordLoader.get_word(category, level).toUpperCase().trim();
+            player.mask = GameLogic.hide_sentences(player.use_letter, word);
             boolean game_end = false;
 
             // round start
@@ -68,30 +71,30 @@ public class HangmanBasic {
                 GameUI.footer();
                 GameUI.display_hangman(player.wrong);
                 // print out "Word:" and _ or letter that player guess correct
-                GameUI.hide_sentence(used_letter, word);
+                GameUI.hide_sentence(player.mask);
                 // print out left how many time player guess wrong like "Incorrect Guesses: 3/6"
                 GameUI.incorrect(player.wrong);
-                GameUI.println("Used Letters: " + used_letters(used_letter));
-                GameUI.println("Hint left: " + hint);
+                GameUI.println("Used Letters: " + used_letters(player.use_letter));
+                GameUI.println("Hint left: " + player.hint);
                 GameUI.footer();
                 // the letter player guess
-                letter = GameLogic.letter(hint);
+                letter = GameLogic.letter(player.hint);
                 if (letter == '?') { // check if player use hint
-                    letter = GameLogic.hint(word, used_letter);
-                    used_letter.add(letter);
-                    hint--;
-                    game_end = GameLogic.basic_win_logic(used_letter, word, player.name); // check if win because maybe
-                                                                                          // player use hint on the last
-                                                                                          // alphabet
+                    letter = GameLogic.hint(word, player.use_letter);
+                    player.use_letter.add(letter); 
+                    player.hint--;
+                    player.mask = GameLogic.hide_sentences(player.use_letter, word);
+                    game_end = GameLogic.basic_win_logic(player.use_letter, word, player.name); // check if win because maybe player use hint on the last alphabet
                 } else {
-                    player.wrong = GameLogic.number_of_guess_wrong(player.wrong, word, letter, used_letter);
-                    if (used_letter.contains(letter)) {
+                    player.wrong = GameLogic.number_of_guess_wrong(player.wrong, word, letter, player.use_letter);
+                    if (player.use_letter.contains(letter)) {
                         continue;
                     } else {
-                        used_letter.add(letter);
+                        player.use_letter.add(letter);
+                        player.mask = GameLogic.hide_sentences(player.use_letter, word);
                     }
                     // check if win or not
-                    if (GameLogic.basic_win_logic(used_letter, word, player.name)) {
+                    if (GameLogic.basic_win_logic(player.use_letter, word, player.name)) {
                         game_end = true;
                     }
                     // check if lose or not
@@ -113,6 +116,9 @@ public class HangmanBasic {
 
     // to convert list to String
     protected static String used_letters(List<Character> used_letter) {
+        if (used_letter.isEmpty()){
+            return "";
+        }
         List<String> usedLetters = new ArrayList<>();
         for (char letters : used_letter) {
             usedLetters.add(String.valueOf(letters));

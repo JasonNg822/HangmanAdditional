@@ -31,15 +31,13 @@ public class Multiplayer2 extends Multiplayer1 {
         Player host;
 
         // to get every player name
-        GameLogic.get_player_name(n_player, players);
+        GameLogic.get_player_name(n_player, players, use_letter);
 
         while ((continues == true)) {
-            used_letter = new ArrayList<>();
+            use_letter = new ArrayList<>();
             player_index = 0;
 
             GameUI.println("\n===== Welcome to Hangman game! =====");
-            GameLogic.initialize(players, loser);
-            hint = 1;
 
             // choose which player to be host
             host = GameLogic.host(players);
@@ -53,6 +51,7 @@ public class Multiplayer2 extends Multiplayer1 {
             GameUI.words(words, category, level);
 
             word = GameLogic.word(words, category, level).toUpperCase().trim();
+            GameLogic.initialize(players, loser, use_letter, word);
             boolean game_end = false;
 
             // game/round start
@@ -61,40 +60,29 @@ public class Multiplayer2 extends Multiplayer1 {
                 GameUI.display_hangman(players.get(player_index).wrong);
                 GameUI.println(players.get(player_index).name + " round");
                 // print out "Word:" and _ or letter that user guess correct
-                GameUI.hide_sentence(used_letter, word);
+                GameUI.hide_sentence(players.get(player_index).mask);
                 // print out left how many time user guess wrong like "Incorrect Guesses: 3/6"
                 GameUI.incorrect(players.get(player_index).wrong);
-                GameUI.println("Used Letters: " + used_letters(used_letter));
-                GameUI.println("Hint left: " + hint);
+                GameUI.println("Used Letters: " + used_letters(players.get(player_index).use_letter));
+                GameUI.println("Hint left: " + players.get(player_index).hint);
                 GameUI.footer();
                 // the letter player guess
-                letter = GameLogic.letter(hint);
+                letter = GameLogic.letter(players.get(player_index).hint);
                 if (letter == '?') { // check if player use hint
-                    letter = GameLogic.hint(word, used_letter);
-                    used_letter.add(letter);
-                    hint--;
-                    game_end = GameLogic.multiplayer_win_logic(players, loser, player_index, used_letter, word); // check
-                                                                                                                 // if
-                                                                                                                 // win
-                                                                                                                 // because
-                                                                                                                 // maybe
-                                                                                                                 // player
-                                                                                                                 // use
-                                                                                                                 // hint
-                                                                                                                 // on
-                                                                                                                 // the
-                                                                                                                 // last
-                                                                                                                 // alphabet
+                    letter = GameLogic.hint(word, players.get(player_index).use_letter);
+                    players.get(player_index).use_letter.add(letter);
+                    players.get(player_index).hint--;
+                    players.get(player_index).mask = GameLogic.hide_sentences(players.get(player_index).use_letter, word);
+                    game_end = GameLogic.multiplayer_win_logic(players, loser, player_index, players.get(player_index).use_letter, word); // check if win because maybe player use hint on the last alphabet
                 }
                 // to calculate number of player guess wrong and correct
-                players.get(player_index).wrong = GameLogic.number_of_guess_wrong(players.get(player_index).wrong, word,
-                        letter, used_letter);
-                players.get(player_index).correct = GameLogic.number_of_guess_correct(players.get(player_index).correct,
-                        word, letter, used_letter);
-                if (used_letter.contains(letter)) {
+                players.get(player_index).wrong = GameLogic.number_of_guess_wrong(players.get(player_index).wrong, word, letter, players.get(player_index).use_letter);
+                players.get(player_index).correct = GameLogic.number_of_guess_correct(players.get(player_index).correct, word, letter, players.get(player_index).use_letter);
+                if (players.get(player_index).use_letter.contains(letter)) {
                     continue;
                 } else {
-                    used_letter.add(letter);
+                    players.get(player_index).use_letter.add(letter);
+                    players.get(player_index).mask = GameLogic.hide_sentences(players.get(player_index).use_letter, word);
                 }
 
                 // get the number of player before check the player lose or not (if lose will
@@ -102,11 +90,11 @@ public class Multiplayer2 extends Multiplayer1 {
                 int before_remove = players.size();
 
                 // check if win or not
-                if (GameLogic.multiplayer_win_logic(players, loser, player_index, used_letter, word)) {
+                if (GameLogic.multiplayer_win_logic(players, loser, player_index, players.get(player_index).use_letter, word)) {
                     game_end = true;
                 }
                 // check if lose or not
-                else if (GameLogic.multiplayer_lose_logic(players, loser, player_index, used_letter, word)) {
+                else if (GameLogic.multiplayer_lose_logic(players, loser, player_index, players.get(player_index).use_letter, word)) {
                     game_end = true;
                 }
 

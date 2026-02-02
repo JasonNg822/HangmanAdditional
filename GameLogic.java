@@ -34,8 +34,8 @@ public class GameLogic {
         int choose = 0;
         while (choose != back_to_menu) { 
             try {
-                GameUI.println("1. Computer generate words.");
-                GameUI.println("2. Player generate words");
+                GameUI.println("1. Computer romdom choose a words.");
+                GameUI.println("2. Player choose words");
                 GameUI.println("3. Back to menu");
                 choose = choice(computer_generate_words, back_to_menu);
                 switch (choose) {
@@ -58,12 +58,14 @@ public class GameLogic {
         }
     }
 
-    public static void get_player_name(int n_player, List <Player> players) {
+    public static void get_player_name(int n_player, List <Player> players, List <Character> used_letter) {
         // to get every player name
         for (int i = 0; i < n_player; i++) {
             int wrong = 0;
             int correct = 0;
+            int hint = 1;
             String name;
+            String mask = "";
             while(true){
                 GameUI.print("Please enter player" + (i+1) + " name: ");
                 name = HangmanBasic.input.nextLine();
@@ -71,25 +73,30 @@ public class GameLogic {
                     break;
                 }
             }
-            Player player = new Player(name, wrong, correct);
+            Player player = new Player(name, wrong, correct, hint, HangmanBasic.use_letter, mask);
             players.add(player);
         }
     }
 
-    public static void initialize(List <Player> players, List <Player> loser) {
+    public static void initialize(List <Player> players, List <Player> loser, List <Character> use_letter, String word) {
         // initialize
-        // to reset number of player guess wrong and correct to 0
-        for (Player player : players){
-            player.wrong = 0;
-            player.correct = 0;
-        }
-
+        
         // to store all player detail into players from l_player 
         for (Player player : loser){
             players.add(player);
         }
         
         loser.clear();
+        
+        // to reset number of player guess wrong and correct to 0
+        for (Player player : players){
+            use_letter = new ArrayList<>();
+            player.wrong = 0;
+            player.correct = 0;
+            player.hint = 1;
+            player.use_letter = use_letter;
+            player.mask = GameLogic.hide_sentences(use_letter, word);
+        }
     }
 
     // to choose which player to choose the question
