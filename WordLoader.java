@@ -5,19 +5,21 @@ import java.util.Random;
 public class WordLoader {
 
     // to add level into category
-    public static void add_array(List <List <String>> category, String... word){ // String... means can put multiple Sting inside
+    public static void add_array(List<List<String>> category, String... word) { // String... means can put multiple
+                                                                                // Sting inside
         category.add(new ArrayList<>(List.of(word)));
     }
 
     public static List<List<List<String>>> words = new ArrayList<>();
 
-    static { // static{} means when other file call this file, this file will run static{} first
+    static { // static{} means when other file call this file, this file will run static{}
+             // first
         List<List<String>> fruit = new ArrayList<>();
         List<List<String>> animal = new ArrayList<>();
         List<List<String>> country = new ArrayList<>();
         List<List<String>> sport = new ArrayList<>();
         List<List<String>> phrase = new ArrayList<>();
-        
+
         add_array(fruit, "apple", "banana", "orange", "kiwi", "grape", "pear", "peach");
         add_array(fruit, "mango", "lychee", "watermelon", "longan", "coconut", "cherry", "papaya");
         add_array(fruit, "strawberry", "jackfruit", "durian", "pineapple", "lemon", "pomelo", "avacado");
@@ -46,13 +48,13 @@ public class WordLoader {
     }
 
     // computer random gerenate a word
-    public static String get_word (int category, int level) {
-        
+    public static String get_word(int category, int level) {
+
         Random random = new Random();
 
-        List <String> category_level = words.get(category - 1).get(level - 1);
+        List<String> category_level = words.get(category - 1).get(level - 1);
         int index = random.nextInt(category_level.size());
-        
+
         return category_level.get(index);
     }
 }

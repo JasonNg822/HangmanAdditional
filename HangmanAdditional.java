@@ -22,7 +22,7 @@ public class HangmanAdditional extends HangmanBasic{
         int number_of_player;
 
         while (choose != exit_game) {
-            GameUI.println("===== Welcome to Hangman game! =====");
+            GameUI.println("\n===== Welcome to Hangman game! =====");
             GameUI.println("1. Single player");
             GameUI.println("2. 2 Players");
             GameUI.println("3. Multiplayer");
@@ -42,8 +42,6 @@ public class HangmanAdditional extends HangmanBasic{
                     GameUI.footer();
                     number_of_player = GameLogic.choice(min_player, max_player);
                     GameUI.footer();
-                    GameUI.println("1. Computer generate words");
-                    GameUI.println("2. Player generate words");
                     GameLogic.setup_multiplayer(number_of_player);
                     break;
                 case set_pharse:

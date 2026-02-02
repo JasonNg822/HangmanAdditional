@@ -1,9 +1,6 @@
 import java.util.List;
-import java.util.Scanner;
 
-public class GameUI {
-
-    public static final Scanner input = new Scanner(System.in);
+public class GameUI {   
 
     public static void println(String a){
         System.out.println(a);
@@ -17,13 +14,21 @@ public class GameUI {
         println("------------------------------------");
     }
 
-    public static void categorys () {
-        println("Category: ");
-        println("1. Fruit");
-        println("2. Animal");
-        println("3. Country");
-        println("4. Sport");
-        println("5. Phrase or sentence");
+    public static void categorys (int last_category) {
+        if (last_category == 4){
+            println("Category: ");
+            println("1. Fruit");
+            println("2. Animal");
+            println("3. Country");
+            println("4. Sport");
+        }
+        else if (last_category == 5){
+            println("Category: ");
+            println("1. Fruit");
+            println("2. Animal");
+            println("3. Country");
+            println("4. Sport");
+        }
     }
 
     public static void level () {
@@ -42,14 +47,14 @@ public class GameUI {
         println("Incorrect Guesses: " + number_of_guess_wrong + "/6");
     }
 
-    public static void display_win (String name){
+    public static void display_win (String name, String word){
         println("===== Game Over! =====");
-        println("Congratulations, " + name + " have WON!");
+        println("Congratulations, " + name + " have WON! The word is " + word);
     }
 
-    public static void display_win (String name, String host){
+    public static void display_win (String name, String host, String word){
         println("===== Game Over! =====");
-        println("Congratulations, " + name + " have WON!");
+        println("Congratulations, " + name + " have WON! The word is " + word);
         println("Sorry, " + host + " LOST! " + name + " guess correct the word.");
     }
 

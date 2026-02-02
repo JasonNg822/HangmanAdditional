@@ -3,7 +3,7 @@ public class SetPhrase extends Multiplayer2{
     public static void set_phrase() {
         GameUI.println("");
         // to choose add new word/phrase/sentence in which category and level
-        GameUI.categorys();
+        GameUI.categorys(phrase);
         int category = GameLogic.choice(first_category, phrase);
         GameUI.level();
         int level = GameLogic.choice(min_level, max_level);

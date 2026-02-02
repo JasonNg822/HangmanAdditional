@@ -52,7 +52,7 @@ public class TwoPlayer extends Multiplayer2{
             GameUI.println("\n===== Welcome to Hangman game! =====");
             GameUI.println(host.name + " please choose a category (Enter number).");
             // let host get the word from WordLoader
-            GameUI.categorys();
+            GameUI.categorys(last_category);
             int category = GameLogic.choice(first_category, last_category);
             GameUI.print("\n" + host.name + " please choose a level (Enter number).");
             GameUI.level();
@@ -90,7 +90,6 @@ public class TwoPlayer extends Multiplayer2{
                     else{
                         used_letter.add(letter);
                     }
-                    GameUI.footer();
                     // check if win or not
                     if (GameLogic.basic_win_logic(used_letter, word, player.name, host.name)){
                         game_end = true;
@@ -110,14 +109,5 @@ public class TwoPlayer extends Multiplayer2{
                 continues = false;
             }
         }
-    }
-
-    // to convert list to String
-    protected static String used_letters(List <Character> used_letter) {
-        List <String> usedLetters = new ArrayList<>();
-        for (char letter : used_letter) {
-            usedLetters.add(String.valueOf(letter));
-        }
-        return String.join(", ", usedLetters);
     }
 }

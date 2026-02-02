@@ -11,7 +11,7 @@ public class GameLogic {
         while (true){
             try {
                 GameUI.print("Please enter a number " + min + " - " + max + ": ");
-                choose = GameUI.input.nextLine();
+                choose = HangmanBasic.input.nextLine();
                 number = Integer.parseInt(choose);
                 if (number <= max && number >= min){
                     break;
@@ -30,11 +30,14 @@ public class GameLogic {
     public static void setup_multiplayer(int n_Player) {
         final int computer_generate_words = 1;
         final int player_generate_words = 2;
-        int choose;
-        while (true) { 
+        final int back_to_menu = 3;
+        int choose = 0;
+        while (choose != back_to_menu) { 
             try {
-                GameUI.print("Please enter a number 1 or 2: ");
-                choose = choice(computer_generate_words, player_generate_words);
+                GameUI.println("1. Computer generate words.");
+                GameUI.println("2. Player generate words");
+                GameUI.println("3. Back to menu");
+                choose = choice(computer_generate_words, back_to_menu);
                 switch (choose) {
                     case computer_generate_words:
                         GameUI.footer();
@@ -43,6 +46,8 @@ public class GameLogic {
                     case player_generate_words:
                         GameUI.footer();
                         Multiplayer2.multiplayer2(n_Player);
+                        break;
+                    case back_to_menu:
                         break;
                     default:
                         GameUI.println("Invalid input.");
@@ -97,7 +102,7 @@ public class GameLogic {
                     GameUI.println((index + 1) + ". " + players.get(index).name);
                 }
                 GameUI.print("Please select a player to guess the word (enter the number, not name): ");
-                player_number = GameUI.input.nextLine().trim();
+                player_number = HangmanBasic.input.nextLine().trim();
                 index = Integer.parseInt(player_number) - 1;
                 if ((index < players.size() && index >= 0)){
                     break;
@@ -147,7 +152,7 @@ public class GameLogic {
             try {
                 GameUI.print("Guess a letter: ");
                 // to change the letter player input to uppercase and only get the first letter if player input more than one letter.
-                letter = GameUI.input.nextLine().toUpperCase().charAt(0);       
+                letter = HangmanBasic.input.nextLine().toUpperCase().charAt(0);       
                 if (String.valueOf(letter).matches("[A-Za-z]+")) { // .matches only can use on String
                     break;
                 }
@@ -165,7 +170,7 @@ public class GameLogic {
             try {
                 GameUI.print("Guess a letter: ");
                 // to change the letter player input to uppercase and only get the first letter if player input more than one letter.
-                letter = GameUI.input.nextLine().toUpperCase().charAt(0);       
+                letter = HangmanBasic.input.nextLine().toUpperCase().charAt(0);       
                 if (letter == '?'){ // player enter "?" to use hint
                     if (hints == 0){
                         GameUI.println("No more hint.");
@@ -223,7 +228,7 @@ public class GameLogic {
     // check if win or not
     public static boolean basic_win_logic(List <Character> used_letter, String word, String name) {
         if (hide_sentences(used_letter, word).equals(word.trim())){  // check if the hide_sentences is all match with the word
-            GameUI.display_win(name);
+            GameUI.display_win(name, word);
             return true;    
         }
         return false;
@@ -231,7 +236,7 @@ public class GameLogic {
 
     public static boolean basic_win_logic(List <Character> used_letter, String word, String name, String host) {
         if (hide_sentences(used_letter, word).equals(word.trim())){  // check if the hide_sentences is all match with the word
-            GameUI.display_win(name, host);
+            GameUI.display_win(name, host, word);
             return true;    
         }
         return false;

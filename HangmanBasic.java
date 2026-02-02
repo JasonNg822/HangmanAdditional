@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class HangmanBasic {
 
     public static final Scanner input = new Scanner(System.in);
-    
+
     protected static final int first_category = 1;
     protected static final int last_category = 4;
     protected static final int phrase = 5;
@@ -24,7 +24,7 @@ public class HangmanBasic {
 
     protected static int number_of_guess_wrong;
     protected static int hint;
-    protected static List <Character> used_letter;
+    protected static List<Character> used_letter;
 
     protected static boolean continues;
     protected static char letter;
@@ -32,17 +32,17 @@ public class HangmanBasic {
 
     protected static String word;
 
-    public static void hangmanBasic(){
+    public static void hangmanBasic() {
 
         continues = true;
         int wrong = 0;
         int correct = 0;
         String name = "";
         Player player = new Player(name, wrong, correct);
-        while(true){
+        while (true) {
             GameUI.print("\nPlease enter player name: ");
             name = HangmanBasic.input.nextLine();
-            if (!name.trim().isEmpty()){
+            if (!name.trim().isEmpty()) {
                 player = new Player(name, wrong, correct);
                 break;
             }
@@ -56,7 +56,7 @@ public class HangmanBasic {
 
             GameUI.println("\n===== Welcome to Hangman game! =====");
             // let computer get the word from WordLoader
-            GameUI.categorys();
+            GameUI.categorys(last_category);
             int category = GameLogic.choice(first_category, last_category);
             GameUI.level();
             int level = GameLogic.choice(min_level, max_level);
@@ -64,7 +64,7 @@ public class HangmanBasic {
             boolean game_end = false;
 
             // round start
-            while (game_end == false) { 
+            while (game_end == false) {
                 GameUI.footer();
                 GameUI.display_hangman(player.wrong);
                 // print out "Word:" and _ or letter that player guess correct
@@ -76,36 +76,35 @@ public class HangmanBasic {
                 GameUI.footer();
                 // the letter player guess
                 letter = GameLogic.letter(hint);
-                if (letter == '?'){ // check if player use hint
+                if (letter == '?') { // check if player use hint
                     letter = GameLogic.hint(word, used_letter);
                     used_letter.add(letter);
                     hint--;
-                    game_end = GameLogic.basic_win_logic(used_letter, word, player.name); // check if win because maybe player use hint on the last alphabet
-                }
-                else {
+                    game_end = GameLogic.basic_win_logic(used_letter, word, player.name); // check if win because maybe
+                                                                                          // player use hint on the last
+                                                                                          // alphabet
+                } else {
                     player.wrong = GameLogic.number_of_guess_wrong(player.wrong, word, letter, used_letter);
-                    if (used_letter.contains(letter)){
+                    if (used_letter.contains(letter)) {
                         continue;
-                    }
-                    else{
+                    } else {
                         used_letter.add(letter);
                     }
-                    GameUI.footer();
                     // check if win or not
-                    if (GameLogic.basic_win_logic(used_letter, word, player.name)){
+                    if (GameLogic.basic_win_logic(used_letter, word, player.name)) {
                         game_end = true;
                     }
                     // check if lose or not
-                    else if (GameLogic.basic_lose_logic(player.wrong, word, player.name)){
+                    else if (GameLogic.basic_lose_logic(player.wrong, word, player.name)) {
                         game_end = true;
                     }
                 }
             }
             do {
-                GameUI.print("\nYou want to continue for next game? (y/n): "); 
+                GameUI.print("\nYou want to continue for next game? (y/n): ");
                 ans = input.nextLine();
             } while (!ans.equalsIgnoreCase("y") && !ans.equalsIgnoreCase("n"));
-            if (ans.equalsIgnoreCase("n")){
+            if (ans.equalsIgnoreCase("n")) {
                 GameUI.println("");
                 continues = false;
             }
@@ -113,10 +112,10 @@ public class HangmanBasic {
     }
 
     // to convert list to String
-    protected static String used_letters(List <Character> used_letter) {
-        List <String> usedLetters = new ArrayList<>();
-        for (char letter : used_letter) {
-            usedLetters.add(String.valueOf(letter));
+    protected static String used_letters(List<Character> used_letter) {
+        List<String> usedLetters = new ArrayList<>();
+        for (char letters : used_letter) {
+            usedLetters.add(String.valueOf(letters));
         }
         return String.join(", ", usedLetters);
     }
