@@ -1,10 +1,3 @@
-/*
-Group Member: Ng Kok Bing
-            : Qin Zi Yi
-            : Tang Ying Xiang
-            : Cheng Hao Nan
- */
-
 public class HangmanAdditional {
 
     public static void main(String[] args){
