@@ -5,15 +5,13 @@ import java.util.Random;
 public class WordLoader {
 
     // to add level into category
-    public static void add_array(List<List<String>> category, String... word) { // String... means can put multiple
-                                                                                // Sting inside
+    public static void add_array(List<List<String>> category, String... word) { // String... means can put multiple Sting inside
         category.add(new ArrayList<>(List.of(word)));
     }
 
     public static List<List<List<String>>> words = new ArrayList<>();
 
-    static { // static{} means when other file call this file, this file will run static{}
-             // first
+    static { // static{} means when other file call this file, this file will run static{} first
         List<List<String>> fruit = new ArrayList<>();
         List<List<String>> animal = new ArrayList<>();
         List<List<String>> country = new ArrayList<>();

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-// to coordinate the overall game application functionality, (single player, computer random generate word)
 public class HangmanBasic {
 
     public static final Scanner input = new Scanner(System.in);
@@ -49,6 +48,7 @@ public class HangmanBasic {
             }
         }
 
+        // game start and repeat from here if game over and player choose to continue
         while (continues == true) {
             player.wrong = 0;
             player.correct = 0;
@@ -66,11 +66,11 @@ public class HangmanBasic {
             player.mask = GameLogic.hide_sentences(player.use_letter, word);
             boolean game_end = false;
 
-            // round start
+            // round start and if not game over will continue from here for next round
             while (game_end == false) {
                 GameUI.footer();
                 GameUI.display_hangman(player.wrong);
-                // print out "Word:" and _ or letter that player guess correct
+                // print out "Word:" and a series of "_" or letters that player guess correct
                 GameUI.hide_sentence(player.mask);
                 // print out left how many time player guess wrong like "Incorrect Guesses: 3/6"
                 GameUI.incorrect(player.wrong);
@@ -84,10 +84,10 @@ public class HangmanBasic {
                     player.use_letter.add(letter); 
                     player.hint--;
                     player.mask = GameLogic.hide_sentences(player.use_letter, word);
-                    game_end = GameLogic.basic_win_logic(player.use_letter, word, player.name); // check if win because maybe player use hint on the last alphabet
+                    game_end = GameLogic.basic_win_logic(player.use_letter, word, player.name); // check if win or not, because maybe player use hint on the last alphabet
                 } else {
                     player.wrong = GameLogic.number_of_guess_wrong(player.wrong, word, letter, player.use_letter);
-                    if (player.use_letter.contains(letter)) {
+                    if (player.use_letter.contains(letter)) { // if the letter have been guess by player
                         continue;
                     } else {
                         player.use_letter.add(letter);

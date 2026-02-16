@@ -30,6 +30,7 @@ public class Multiplayer1 extends HangmanBasic{
         // to get every player name
         GameLogic.get_player_name(n_player, players, use_letter);
         
+        // game start and repeat from here if game over and player choose to continue
         while ((continues == true)) {
             
             GameUI.println("\n===== Welcome to Hangman game! =====");
@@ -45,7 +46,7 @@ public class Multiplayer1 extends HangmanBasic{
             GameLogic.initialize(players, loser, use_letter, word);
             boolean game_end = false;
 
-            // game/round start
+            // round start and if not game over will continue from here for next round
             while (game_end == false) { 
                 GameUI.footer();
                 GameUI.display_hangman(players.get(player_index).wrong);
@@ -64,12 +65,12 @@ public class Multiplayer1 extends HangmanBasic{
                     players.get(player_index).use_letter.add(letter);
                     players.get(player_index).hint--;
                     players.get(player_index).mask = GameLogic.hide_sentences(players.get(player_index).use_letter, word);
-                    game_end = GameLogic.multiplayer_win_logic(players, loser, player_index, players.get(player_index).use_letter, word); // check if win because maybe player use hint on the last alphabet
+                    game_end = GameLogic.multiplayer_win_logic(players, loser, player_index, players.get(player_index).use_letter, word); // check if win or not, because maybe player use hint on the last alphabet
                 }
-                // to calculate number of player guess wrong and correct
+                // to calculate the number of times players guesses correct and wrong.
                 players.get(player_index).wrong = GameLogic.number_of_guess_wrong(players.get(player_index).wrong, word, letter, players.get(player_index).use_letter);
                 players.get(player_index).correct = GameLogic.number_of_guess_correct(players.get(player_index).correct, word, letter, players.get(player_index).use_letter);
-                if (players.get(player_index).use_letter.contains(letter)){
+                if (players.get(player_index).use_letter.contains(letter)){ // if the letter have been guess by player
                     continue;
                 }
                 else{

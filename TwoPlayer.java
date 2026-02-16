@@ -10,7 +10,6 @@ Player got one hint chance
 import java.util.ArrayList;
 import java.util.List;
 
-// to coordinate the overall game application functionality, (single player, computer random generate word)
 public class TwoPlayer extends Multiplayer2{
 
     public static void two_players(){
@@ -45,6 +44,7 @@ public class TwoPlayer extends Multiplayer2{
             }
         }
 
+        // game start and repeat from here if game over and player choose to continue
         while (continues == true) {
             player.correct = 0;
             player.wrong = 0;
@@ -67,7 +67,7 @@ public class TwoPlayer extends Multiplayer2{
             player.mask = GameLogic.hide_sentences(player.use_letter, word);
             boolean game_end = false;
 
-            // round start
+            // round start and if not game over will continue from here for next round
             while (game_end == false) { 
                 GameUI.footer();
                 GameUI.display_hangman(player.wrong);
@@ -89,7 +89,7 @@ public class TwoPlayer extends Multiplayer2{
                 }
                 else {
                     player.wrong = GameLogic.number_of_guess_wrong(player.wrong, word, letter, player.use_letter);
-                    if (player.use_letter.contains(letter)){
+                    if (player.use_letter.contains(letter)){ // if the letter have been guess by player
                         continue;
                     }
                     else{

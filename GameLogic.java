@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class GameLogic {
 
+    // to let players choose their choice like category, level, version, number of player
     public static int choice(int min, int max){
         String choose;
         int number;
@@ -58,6 +59,7 @@ public class GameLogic {
         }
     }
 
+    // to get all players name and store into a Player list
     public static void get_player_name(int n_player, List <Player> players, List <Character> used_letter) {
         // to get every player name
         for (int i = 0; i < n_player; i++) {
@@ -122,6 +124,7 @@ public class GameLogic {
         return players.get(index);
     }
 
+    // in Multiplayer2 version let host choose which word to let player guess
     public static String word(List<List<List<String>>> words, int category, int level){
         List <String> word = words.get(category - 1).get(level - 1);
         int index = choice(1, word.size());
@@ -129,6 +132,7 @@ public class GameLogic {
     }
 
     // change the word or sentence to a series of "_", if got symbol or number will display out the symbol or number 
+    // if player guess correct the letter, then the letter also will be shown
     public static String hide_sentences (List <Character> used_letter, String word){
         List <String> hide_letters = new ArrayList<>();
         String display;
@@ -278,9 +282,9 @@ public class GameLogic {
             GameUI.multiplayer_display_win(word, players.get(player_index).name);
             GameUI.println("\n===== Ranking =====");
             // calculate and print user ranking that player haven't guess wrong 6 times
-            GameLogic.calculator_ranking(players);
+            calculator_ranking(players);
             // calculate and print user ranking that player guess wrong 6 times
-            GameLogic.calculator_lose_ranking(loser, players.size());
+            calculator_lose_ranking(loser, players.size());
             return true;
         }
         return false;
@@ -317,10 +321,10 @@ public class GameLogic {
     }
 
     // to print out the player ranking (for those players get 6 wrong guess (from latest "out"))
-    public static void calculator_lose_ranking(List <Player> players, int player_w) {
+    public static void calculator_lose_ranking(List <Player> players, int player_win) {
         for (int i = players.size() - 1; i >= 0; i--) {
-            GameUI.println("No." + (player_w + 1) + ": " + players.get(i).name + " guess wrong " + players.get(i).wrong + " times, guess correct " + players.get(i).correct + " times.");
-            player_w++;
+            GameUI.println("No." + (player_win + 1) + ": " + players.get(i).name + " guess wrong " + players.get(i).wrong + " times, guess correct " + players.get(i).correct + " times.");
+            player_win++;
         }
     }
 }

@@ -5,7 +5,7 @@ Group Member: Ng Kok Bing
             : Cheng Hao Nan
  */
 
-public class HangmanAdditional extends HangmanBasic{
+public class HangmanAdditional {
 
     public static void main(String[] args){
 

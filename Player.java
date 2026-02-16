@@ -1,4 +1,5 @@
 import java.util.List;
+
 public class Player {
   public String name;
   public int wrong;
